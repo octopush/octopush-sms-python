@@ -95,7 +95,7 @@ Requirements
 ------------
 
 -  API key, register at `octopush.com`_ to get one
--  Python 2.6+
+-  Python 2.6+, 3.5+
 -  `python-requests`_
 
 Documentation
