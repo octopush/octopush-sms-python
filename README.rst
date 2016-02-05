@@ -37,7 +37,7 @@ Or from source code
 Usage
 -----
 
-Config file (``config.js``)
+Config file (``config.py``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
