@@ -34,7 +34,7 @@ class SMS:
         self.sms_fields_1 = []
         self.sms_fields_2 = []
         self.sms_fields_3 = []
-        self.sending_time = int(time.time())
+        self.sending_time = 0
         self.sms_sender = 'AnySender'
         self.sms_type = octopush.SMS_WORLD
         self.request_mode = octopush.REEL
@@ -88,7 +88,6 @@ class SMS:
             'sms_fields_1': ','.join(self.sms_fields_1),
             'sms_fields_2': ','.join(self.sms_fields_2),
             'sms_fields_3': ','.join(self.sms_fields_3),
-            'sms_mode': self.sms_mode,
             'sms_type': self.sms_type,
             'sms_sender': self.sms_sender,
             'request_mode': self.request_mode,
@@ -96,10 +95,11 @@ class SMS:
             'with_replies': self.with_replies,
             'transactional': self.transactional,
             'msisdn_sender': self.msisdn_sender,
+
         }
 
-        if self.sms_mode == octopush.DIFFERE:
-            data['sending_date'] = self.sending_date
+        if self.sending_time > 0:
+            data['sending_time'] = self.sending_time
 
         if self.request_keys != '':
             data['request_keys'] = self.request_keys
@@ -128,7 +128,6 @@ class SMS:
         A_char_to_field = {
             'T': 'sms_text',
             'R': 'sms_recipients',
-            'M': 'sms_mode',
             'Y': 'sms_type',
             'S': 'sms_sender',
             'D': 'sms_date',
