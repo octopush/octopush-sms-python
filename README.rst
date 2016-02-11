@@ -54,7 +54,7 @@ Config file (``config.py``)
         'sms_sender': 'onesender'
     }
 
-Balance check
+Credit check
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
