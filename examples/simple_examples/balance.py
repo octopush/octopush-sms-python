@@ -1,8 +1,9 @@
 from octopush import SMS
+from config import config
 
-sms = SMS('****@***', '**************')
+sms = SMS(config['user_login'], config['api_key'])
 
-result = sms.get_balance()
+result = sms.get_credit()
 
-for balance in result.findall('balance'):
-    print(balance.attrib['type'], balance.text)
+for credit in result.findall('credit'):
+    print(credit.text)

@@ -34,15 +34,9 @@ class SMS:
         self.sms_fields_1 = []
         self.sms_fields_2 = []
         self.sms_fields_3 = []
-        self.sms_mode = octopush.INSTANTANE,
-        self.sending_date = int(time.time())
-        self.sms_d = datetime.datetime.now().strftime("%d")
-        self.sms_m = datetime.datetime.now().strftime("%m")
-        self.sms_h = datetime.datetime.now().strftime("%H")
-        self.sms_i = datetime.datetime.now().strftime("%M")
-        self.sms_y = datetime.datetime.now().strftime("%Y")
-        self.sms_sender = 'CampagneSMS'
-        self.sms_type = octopush.SMS_STANDARD
+        self.sending_time = int(time.time())
+        self.sms_sender = 'AnySender'
+        self.sms_type = octopush.SMS_WORLD
         self.request_mode = octopush.REEL
         self.request_id = ''
         self.with_replies = 0
@@ -113,77 +107,14 @@ class SMS:
 
         return self._request(domain, path, port, data)
 
-    def create_sub_account(self, first_name, last_name, raison_sociale, alert_bound, alert_sms_type):
+    def get_credit(self):
         '''
-        Creates sub account
-        :param first_name:  first name
-        :param last_name:   last name
-        :param raison_sociale:  raison sociale
-        :param alert_bound: alert bound
-        :param alert_sms_type:  octopush.SMS_STANDARD, octopush.SMS_WORLD, octopush.SMS_PREMIUM
-        :return:
-        '''
-        domain = octopush.DOMAIN
-        path = octopush.PATH_SUB_ACCOUNT
-        port = octopush.PORT
-
-        data = {
-            'user_login': self.user_login,
-            'api_key': self.api_key,
-            'first_name': first_name,
-            'last_name': last_name,
-            'raison_sociale': raison_sociale,
-            'alert_bound': alert_bound,
-            'alert_sms_type': alert_sms_type
-        }
-
-        return self._request(domain, path, port, data)
-
-    def credit_sub_account(self, sub_account_email, sms_amount, sms_type):
-        '''
-        Credits sub account
-
-        :param sub_account_email: subaccount email
-        :param sms_amount: number of credits
-        :param sms_type: octopush.SMS_STANDARD, octopush.SMS_WORLD, octopush.SMS_PREMIUM
-        :return result dict
-        '''
-
-        domain = octopush.DOMAIN
-        path = octopush.PATH_CREDIT_SUB_ACCOUNT_TOKEN
-        port = octopush.PORT
-
-        data = {
-            'user_login': self.user_login,
-            'api_key': self.api_key,
-            'sub_account_email': sub_account_email
-        }
-
-        result = self._request(domain, path, port, data)
-
-        token = result['octopush']['token']
-        if sms_type != 'FR' and sms_type != 'XXX':
-            sms_type = 'FR'
-
-        data = {
-            'user_login': self.user_login,
-            'api_key': self.api_key,
-            'sub_account_email': sub_account_email,
-            'sms_number': sms_amount,
-            'sms_type': sms_type,
-            'token': token
-        }
-
-        return self._request(domain, path, port, data)
-
-    def get_balance(self):
-        '''
-        Returns current user's balance
+        Returns current user's credit
 
         :return result dict
         '''
         domain = octopush.DOMAIN
-        path = octopush.PATH_BALANCE
+        path = octopush.PATH_CREDIT
         port = octopush.PORT
 
         data = {
@@ -288,13 +219,6 @@ class SMS:
         '''
         self.sms_fields_3 = value
 
-    def set_sms_mode(self, value):
-        '''
-        Sets sms_mode
-        :param value: octopush.INSTANTANE or octopush.DIFFERE
-        '''
-        self.sms_mode= value
-
     def set_sms_sender(self, value):
         '''
         Sets sms_sender
@@ -302,9 +226,9 @@ class SMS:
         '''
         self.sms_sender = value
 
-    def set_date(self, y, m, d, h, i):
+    def set_time(self, y, m, d, h, i):
         '''
-        Sets date when SMS should be send in case if sms_mode = DIFFERE
+        Sets SMS send date
 
         :param y: year
         :param m: month
@@ -318,7 +242,7 @@ class SMS:
         self.sms_h = h
         self.sms_i = i
 
-        self.sending_date = int(time.mktime(datetime.datetime(y, m, d, h, i).timetuple()))
+        self.sending_time = int(time.mktime(datetime.datetime(y, m, d, h, i).timetuple()))
 
     def set_simulation_mode(self):
         '''
@@ -342,14 +266,14 @@ class SMS:
 
     def set_option_with_replies(self, value):
         '''
-        Notify Octopush platform that you want to receive the answers that your recipients will send back to your sending(s)
+        Notifies Octopush platform that you want to receive the answers that your recipients will send back to your sending(s)
         :param value: value
         '''
         self.with_replies = value
 
     def set_option_transactional(self, value):
         '''
-        Notify Octopush that you are making a transactional sending.
+        Notifies Octopush that you are making a transactional sending.
         With this option, sending marketing SMS is strongly forbidden, and may make your account blocked in case of abuses.
         DO NOT USE this option if you are not sure to understand what a transactional SMS is.
         :param value: value

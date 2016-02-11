@@ -7,9 +7,9 @@ import os
 from octopush import SMS
 
 class NetTest(unittest.TestCase):
-    def test_get_balance(self):
+    def test_get_credit(self):
         if os.environ.get('OCTOPUSH_USER_LOGIN') is not None and os.environ.get('OCTOPUSH_API_KEY') is not None:
             c = SMS(os.environ.get('OCTOPUSH_USER_LOGIN'), os.environ.get('OCTOPUSH_API_KEY'))
-            r = c.get_balance()
+            r = c.get_credit()
 
-            self.assertGreater(len(r.findall('balance')), 1)
+            self.assertEqual(len(r.findall('credit')), 1)

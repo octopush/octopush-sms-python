@@ -47,76 +47,14 @@ class OWS:
         else:
             raise Exception(response.content)
 
-    def credit_sub_account(self, sub_account_email, sms_amount, sms_type):
+    def get_credit(self):
         '''
-        Credits sub account
-
-        :param sub_account_email: subaccount email
-        :param sms_amount: number of credits
-        :param sms_type: octopush.SMS_STANDARD, octopush.SMS_WORLD, octopush.SMS_PREMIUM
-        :return result dict
-        '''
-
-        domain = octopush.DOMAIN
-        path = octopush.PATH_CREDIT_SUB_ACCOUNT_TOKEN
-        port = octopush.PORT
-
-        data = {
-            'user_login': self.user_login,
-            'api_key': self.api_key,
-            'sub_account_email': sub_account_email
-        }
-
-        result = self._request(domain, path, port, data)
-
-        token = result['octopush']['token']
-        if sms_type != 'FR' and sms_type != 'XXX':
-            sms_type = 'FR'
-
-        data = {
-            'user_login': self.user_login,
-            'api_key': self.api_key,
-            'sub_account_email': sub_account_email,
-            'sms_number': sms_amount,
-            'sms_type': sms_type,
-            'token': token
-        }
-
-        return self._request(domain, path, port, data)
-
-    def edit_options(self):
-        '''
-        Updates options on server
-        :return result dict
-        '''
-        domain = octopush.DOMAIN
-        path = octopush.PATH_EDIT_OPTIONS
-        port = octopush.PORT
-
-        data = {
-            'user_login': self.user_login,
-            'api_key': self.api_key,
-        }
-
-        if self.answer_email != -1:
-            data['answer_email'] = self.answer_email
-
-        if self.sms_alert_bound != -1:
-            data['sms_alert_bound'] = self.sms_alert_bound
-
-        if self.sms_alert_type != -1:
-            data['sms_alert_type'] = self.sms_alert_type
-
-        return self._request(domain, path, port, data)
-
-    def get_balance(self):
-        '''
-        Returns current user's balance
+        Returns current user's credit
 
         :return result dict
         '''
         domain = octopush.DOMAIN
-        path = octopush.PATH_BALANCE
+        path = octopush.PATH_CREDIT
         port = octopush.PORT
 
         data = {
@@ -164,5 +102,5 @@ class OWS:
 
         :param sms_alert_type: SMS alert type
         '''
-        if sms_alert_type in [octopush.SMS_PREMIUM, octopush.SMS_STANDARD]:
+        if sms_alert_type in [octopush.SMS_PREMIUM, octopush.SMS_WORLD, octopush.SMS_STANDARD]:
             self.sms_alert_type = sms_alert_type

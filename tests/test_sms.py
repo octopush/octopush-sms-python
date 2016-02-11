@@ -67,11 +67,6 @@ class SMSTest(unittest.TestCase):
         c.set_sms_fields_3('test')
         self.assertEqual(c.sms_fields_3, 'test')
 
-    def test_should_set_sms_mode(self):
-        c = SMS('user-login', 'api-key')
-        c.set_sms_mode(octopush.DIFFERE)
-        self.assertEqual(c.sms_mode, octopush.DIFFERE)
-
     def test_should_set_sms_sender(self):
         c = SMS('user-login', 'api-key')
         c.set_sms_sender('test')
@@ -79,8 +74,8 @@ class SMSTest(unittest.TestCase):
 
     def test_should_set_sms_date(self):
         c = SMS('user-login', 'api-key')
-        c.set_date(2000, 1, 1, 0, 0)
-        self.assertEqual(c.sending_date, int(time.mktime(datetime.datetime(2000, 1, 1, 0, 0).timetuple())))
+        c.set_time(2000, 1, 1, 0, 0)
+        self.assertEqual(c.sending_time, int(time.mktime(datetime.datetime(2000, 1, 1, 0, 0).timetuple())))
 
     def test_should_set_request_mode(self):
         c = SMS('user-login', 'api-key')
