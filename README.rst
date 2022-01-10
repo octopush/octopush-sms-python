@@ -30,8 +30,8 @@ Or from source code
 
 .. code:: shell
 
-    git clone https://github.com/bearburger/octopush-api-python.git
-    cd octopush-api-python
+    git clone https://github.com/octopush/octopush-sms-python
+    cd octopush-sms-python
     python setup.py install
 
 Usage
@@ -64,10 +64,11 @@ Credit check
 
     sms = SMS(config['user_login'], config['api_key'])
 
-    result = sms.get_credit()
+    sms_balance = sms.get_balance()
 
-    for credit in result.findall('credit'):
-        print(credit.text)
+    for balance in sms_balance.findall('balance'):
+        # get SMS credit type and the credit value
+        print(balance.attrib['type'],balance.text)
 
 SMS sending
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -85,9 +86,9 @@ SMS sending
     sms.set_sms_sender(config['sms_sender'])
     sms.set_sms_request_id(str(uuid.uuid1()))
 
-    result = sms.send()
+    sms_send_result = sms.send()
 
-    print(result)
+    print(sms_send_result)
 
 More examples can be found in `Simple Examples`_ and `Advanced Examples`_.
 
